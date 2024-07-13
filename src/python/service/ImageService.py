@@ -40,4 +40,4 @@ class ImageService:
         inputs = processor(raw_image, return_tensors="pt")
         out = model.generate(**inputs)
 
-        return {path.split('/')[-1]: processor.decode(out[0], skip_special_tokens=True)}
+        return {path: processor.decode(out[0], skip_special_tokens=True)}
