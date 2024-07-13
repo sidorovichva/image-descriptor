@@ -2,18 +2,25 @@ from PIL import Image
 from transformers import BlipForConditionalGeneration, BlipProcessor
 import os
 
+from src.python.service.FileReader import FileReader
+from src.python.service.RemoteFileReader import RemoteFileReader
 from src.python.transformer.Transformer import Transformer
 from src.python.service.Utils import Utils
 
 
 class ImageService:
 
-    def __init__(self, transformer: Transformer):
+    def __init__(self, transformer: Transformer, file_reader: FileReader = RemoteFileReader()):
         self.__transformer = transformer
+        self.__file_reader = file_reader
 
     @property
-    def transformer(self):
+    def transformer(self) -> Transformer:
         return self.__transformer
+
+    @property
+    def file_reader(self) -> FileReader:
+        return self.__file_reader
 
     def describe(self, path: str) -> dict:
 
@@ -29,7 +36,7 @@ class ImageService:
 
         processor = BlipProcessor.from_pretrained(local_processor_path)
         model = BlipForConditionalGeneration.from_pretrained(local_model_path)
-        raw_image = Image.open(path).convert('RGB')
+        raw_image = self.file_reader.read(path)
         inputs = processor(raw_image, return_tensors="pt")
         out = model.generate(**inputs)
 

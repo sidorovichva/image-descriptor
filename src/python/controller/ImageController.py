@@ -2,6 +2,7 @@ from fastapi import APIRouter
 
 from src.python.factory.TransformerFactory import TransformerFactory
 from src.python.service.ImageService import ImageService
+from src.python.service.LocalFileReader import LocalFileReader
 
 router = APIRouter(prefix="/image")
 
@@ -36,4 +37,5 @@ async def describe(transformer_name: str) -> list[dict]:
         'Screenshot 2.png',
     ]
 
-    return [ImageService(transformer).describe(path) for path in [common_path + file for file in files]]
+    return [ImageService(transformer=transformer, file_reader=LocalFileReader()).describe(path)
+            for path in [common_path + file for file in files]]
