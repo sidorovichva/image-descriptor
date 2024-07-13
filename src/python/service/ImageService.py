@@ -15,7 +15,7 @@ class ImageService:
     def transformer(self):
         return self.__transformer
 
-    def describe(self, path: str) -> str:
+    def describe(self, path: str) -> dict:
 
         local_model_path: str = self.transformer.model_path()
         local_processor_path: str = self.transformer.processor_path()
@@ -33,4 +33,4 @@ class ImageService:
         inputs = processor(raw_image, return_tensors="pt")
         out = model.generate(**inputs)
 
-        return processor.decode(out[0], skip_special_tokens=True)
+        return {path.split('/')[-1]: processor.decode(out[0], skip_special_tokens=True)}
