@@ -1,10 +1,12 @@
 from abc import ABC, abstractmethod
 
+from src.python.enum.Algorithm import Algorithm
+
 
 class Transformer(ABC):
 
     def __init__(self, short_name: str, name: str, folder: str):
-        self.__short_name: str = short_name
+        self.__short_name: Algorithm = Algorithm.blip
         self.__name: str = name
         self.__folder: str = folder
 
