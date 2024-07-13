@@ -1,9 +1,12 @@
+import os
+
 from fastapi import APIRouter
 
 from src.python.enum.Algorithm import Algorithm
 from src.python.factory.TransformerFactory import TransformerFactory
 from src.python.service.ImageService import ImageService
 from src.python.service.LocalFileReader import LocalFileReader
+from src.python.service.Utils import Utils
 
 router = APIRouter(prefix="/image")
 
@@ -16,27 +19,13 @@ async def describe(path: str, transformer_name: Algorithm = Algorithm.blip) -> d
 
 
 @router.get("/test")
-async def describe(transformer_name: Algorithm) -> list[dict]:
+async def test(transformer_name: Algorithm) -> list[dict]:
 
     transformer = TransformerFactory.get_transformer(transformer_name=transformer_name)
 
     common_path: str = "src/resources/files/"
 
-    files = [
-        'circles.jpg',
-        'diffuser.png',
-        'floor_plan.png',
-        'general_notes.png',
-        'icon.jpg',
-        'image1.jpg',
-        'image2.jpg',
-        'image3.jpg',
-        'mixed_shapes_0.jpg',
-        'mixed_shapes_1.jpg',
-        'schedule.png',
-        'Screenshot 1.png',
-        'Screenshot 2.png',
-    ]
+    files: [str] = Utils.get_files_names_in_folder(common_path)
 
     return [ImageService(transformer=transformer, file_reader=LocalFileReader()).image2text(path)
             for path in [common_path + file for file in files]]

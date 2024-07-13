@@ -1,11 +1,8 @@
 from PIL import Image
-from transformers import BlipForConditionalGeneration, BlipProcessor
-import os
 
 from src.python.service.FileReader import FileReader
 from src.python.service.RemoteFileReader import RemoteFileReader
 from src.python.transformer.Transformer import Transformer
-from src.python.service.Utils import Utils
 
 
 class ImageService:
