@@ -7,4 +7,7 @@ from src.python.service.FileReader import FileReader
 class RemoteFileReader(FileReader):
 
     def read(self, link: str) -> Image:
-        return Image.open(requests.get(link, stream=True).raw).convert('RGB')
+        image = Image.open(requests.get(link, stream=True).raw)
+        if image.mode != "RGB":
+            image = image.convert(mode="RGB")
+        return image

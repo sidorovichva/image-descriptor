@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+from PIL import Image
+
 from src.python.enum.Algorithm import Algorithm
 
 
@@ -26,6 +28,10 @@ class Transformer(ABC):
     def download(self) -> None:
         pass
 
+    @abstractmethod
+    def describe(self, image: Image) -> str:
+        pass
+
     def path(self) -> str:
         return f"src/resources/transformers/{self.folder}"
 
@@ -34,3 +40,9 @@ class Transformer(ABC):
 
     def processor_path(self) -> str:
         return f"src/resources/transformers/{self.folder}/processor"
+
+    def feature_extractor_path(self) -> str:
+        return f"src/resources/transformers/{self.folder}/feature_extractor"
+
+    def auto_tokenizer_path(self) -> str:
+        return f"src/resources/transformers/{self.folder}/auto_tokenizer"

@@ -12,7 +12,7 @@ router = APIRouter(prefix="/image")
 async def describe(path: str, transformer_name: Algorithm = Algorithm.blip) -> dict:
 
     transformer = TransformerFactory.get_transformer(transformer_name=transformer_name)
-    return ImageService(transformer).describe(path)
+    return ImageService(transformer).image2text(path)
 
 
 @router.get("/test")
@@ -38,5 +38,5 @@ async def describe(transformer_name: Algorithm) -> list[dict]:
         'Screenshot 2.png',
     ]
 
-    return [ImageService(transformer=transformer, file_reader=LocalFileReader()).describe(path)
+    return [ImageService(transformer=transformer, file_reader=LocalFileReader()).image2text(path)
             for path in [common_path + file for file in files]]

@@ -22,22 +22,12 @@ class ImageService:
     def file_reader(self) -> FileReader:
         return self.__file_reader
 
-    def describe(self, path: str) -> dict:
+    def image2text(self, path: str) -> dict:
 
-        local_model_path: str = self.transformer.model_path()
-        local_processor_path: str = self.transformer.processor_path()
+        self.transformer.download()
 
-        if (
-                not os.path.exists(self.transformer.path())
-                or Utils.is_directory_empty(local_model_path)
-                or Utils.is_directory_empty(local_processor_path)
-        ):
-            self.transformer.download()
+        image: Image = self.file_reader.read(path)
 
-        processor = BlipProcessor.from_pretrained(local_processor_path)
-        model = BlipForConditionalGeneration.from_pretrained(local_model_path)
-        raw_image = self.file_reader.read(path)
-        inputs = processor(raw_image, return_tensors="pt")
-        out = model.generate(**inputs)
+        description: str = self.transformer.describe(image)
 
-        return {path: processor.decode(out[0], skip_special_tokens=True)}
+        return {path: description}
