@@ -1,12 +1,13 @@
+from src.python.enum.Algorithm import Algorithm
 from src.python.transformer.Transformer import Transformer
 from transformers import BlipForConditionalGeneration, BlipProcessor
 
 
-class BlipTransformer(Transformer):
+class BlipBaseTransformer(Transformer):
 
     def __init__(self):
         super().__init__(
-            short_name='blip',
+            short_name=Algorithm.blip,
             name='Salesforce/blip-image-captioning-base',
             folder='blip-image-captioning-base'
         )

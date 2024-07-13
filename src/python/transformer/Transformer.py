@@ -5,8 +5,8 @@ from src.python.enum.Algorithm import Algorithm
 
 class Transformer(ABC):
 
-    def __init__(self, short_name: str, name: str, folder: str):
-        self.__short_name: Algorithm = Algorithm.blip
+    def __init__(self, short_name: Algorithm, name: str, folder: str):
+        self.__short_name: Algorithm = short_name
         self.__name: str = name
         self.__folder: str = folder
 

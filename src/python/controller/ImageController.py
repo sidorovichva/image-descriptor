@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 
+from src.python.enum.Algorithm import Algorithm
 from src.python.factory.TransformerFactory import TransformerFactory
 from src.python.service.ImageService import ImageService
 from src.python.service.LocalFileReader import LocalFileReader
@@ -8,14 +9,14 @@ router = APIRouter(prefix="/image")
 
 
 @router.get("/describe")
-async def describe(path: str, transformer_name: str) -> dict:
+async def describe(path: str, transformer_name: Algorithm = Algorithm.blip) -> dict:
 
     transformer = TransformerFactory.get_transformer(transformer_name=transformer_name)
     return ImageService(transformer).describe(path)
 
 
 @router.get("/test")
-async def describe(transformer_name: str) -> list[dict]:
+async def describe(transformer_name: Algorithm) -> list[dict]:
 
     transformer = TransformerFactory.get_transformer(transformer_name=transformer_name)
 
