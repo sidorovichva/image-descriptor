@@ -17,16 +17,16 @@ class BlipBaseTransformer(Transformer):
             folder='blip-image-captioning-base'
         )
 
-    def download(self) -> None:
+    async def download(self) -> None:
         if (
                 not os.path.exists(self.path())
                 or Utils.is_directory_empty(self.model_path())
                 or Utils.is_directory_empty(self.processor_path())
         ):
-            processor = BlipProcessor.from_pretrained(self.name)
+            processor = await BlipProcessor.from_pretrained(self.name)
             processor.save_pretrained(self.processor_path())
 
-            model = BlipForConditionalGeneration.from_pretrained(self.name)
+            model = await BlipForConditionalGeneration.from_pretrained(self.name)
             model.save_pretrained(self.model_path())
 
     def describe(self, image: Image) -> str:

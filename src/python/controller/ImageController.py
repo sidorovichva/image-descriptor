@@ -1,4 +1,5 @@
 import os
+from typing import Any, Dict, Coroutine, List
 
 from fastapi import APIRouter
 
@@ -12,14 +13,14 @@ router = APIRouter(prefix="/image")
 
 
 @router.get("/describe")
-async def describe(path: str, transformer_name: Algorithm = Algorithm.blip) -> dict:
+async def describe(path: str, transformer_name: Algorithm = Algorithm.blip) -> Coroutine[Any, Any, dict[str, str]]:
 
     transformer = TransformerFactory.get_transformer(transformer_name=transformer_name)
     return ImageService(transformer).image2text(path)
 
 
 @router.get("/test")
-async def test(transformer_name: Algorithm) -> list[dict]:
+async def test(transformer_name: Algorithm) -> list[Coroutine[Any, Any, dict[str, str]]]:
 
     transformer = TransformerFactory.get_transformer(transformer_name=transformer_name)
 

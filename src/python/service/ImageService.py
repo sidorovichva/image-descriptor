@@ -19,9 +19,9 @@ class ImageService:
     def file_reader(self) -> FileReader:
         return self.__file_reader
 
-    def image2text(self, path: str) -> dict:
+    async def image2text(self, path: str) -> dict[str, str]:
 
-        self.transformer.download()
+        await self.transformer.download()
 
         image: Image = self.file_reader.read(path)
 

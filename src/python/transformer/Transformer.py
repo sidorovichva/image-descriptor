@@ -25,7 +25,7 @@ class Transformer(ABC):
         return self.__folder
 
     @abstractmethod
-    def download(self) -> None:
+    async def download(self) -> None:
         pass
 
     @abstractmethod

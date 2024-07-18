@@ -19,20 +19,20 @@ class NplConnectTransformer(Transformer):
             folder='vit-gpt2-image-captioning'
         )
 
-    def download(self) -> None:
+    async def download(self) -> None:
         if (
                 not os.path.exists(self.path())
                 or Utils.is_directory_empty(self.model_path())
                 or Utils.is_directory_empty(self.feature_extractor_path())
                 or Utils.is_directory_empty(self.auto_tokenizer_path())
         ):
-            model = VisionEncoderDecoderModel.from_pretrained(self.name)
+            model = await VisionEncoderDecoderModel.from_pretrained(self.name)
             model.save_pretrained(self.model_path())
 
-            feature_extractor = ViTImageProcessor.from_pretrained(self.name)
+            feature_extractor = await ViTImageProcessor.from_pretrained(self.name)
             feature_extractor.save_pretrained(self.feature_extractor_path())
 
-            tokenizer = AutoTokenizer.from_pretrained(self.name)
+            tokenizer = await AutoTokenizer.from_pretrained(self.name)
             tokenizer.save_pretrained(self.auto_tokenizer_path())
 
     def describe(self, image: Image) -> str:
